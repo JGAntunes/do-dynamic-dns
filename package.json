@@ -4,6 +4,7 @@
   "description": "A small nodejs tool that dynamically updates a DNS record on Digital Ocean based on your public ip",
   "main": "index.js",
   "scripts": {
+    "start": "node .",
     "lint": "standard --verbose | snazzy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
