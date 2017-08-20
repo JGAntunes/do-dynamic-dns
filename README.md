@@ -1,6 +1,8 @@
 # Digital Ocean Dynamic DNS
 A small nodejs tool that dynamically updates a DNS record on Digital Ocean based on your public ip.
 
+Useful for when you have services running behind a NAT with a dynamic public IP.
+
 ## Usage
 Set your configuration using the specified env vars or using the `config.js` file:
 
