@@ -1,4 +1,4 @@
-FROM alpine
+FROM resin/raspberry-pi-alpine
 
 WORKDIR /code
 
