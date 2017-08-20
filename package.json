@@ -32,5 +32,10 @@
     "pre-commit": "^1.2.2",
     "snazzy": "^7.0.0",
     "standard": "^10.0.3"
+  },
+  "dependencies": {
+    "bunyan": "^1.8.12",
+    "run-parallel": "^1.1.6",
+    "wreck": "^12.2.3"
   }
 }
