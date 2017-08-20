@@ -1,0 +1,36 @@
+{
+  "name": "do-dynamic-dns",
+  "version": "0.1.0",
+  "description": "A small nodejs tool that dynamically updates a DNS record on Digital Ocean based on your public ip",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard --verbose | snazzy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JGAntunes/do-dynamic-dns.git"
+  },
+  "keywords": [
+    "dynamic",
+    "dns",
+    "digital",
+    "ocean",
+    "update",
+    "ip"
+  ],
+  "author": "João Antunes <info@joaoantunes.me> (https://github.com/JGAntunes)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JGAntunes/do-dynamic-dns/issues"
+  },
+  "homepage": "https://github.com/JGAntunes/do-dynamic-dns#readme",
+  "devDependencies": {
+    "pre-commit": "^1.2.2",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3"
+  }
+}
