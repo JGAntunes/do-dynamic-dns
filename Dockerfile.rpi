@@ -9,6 +9,7 @@ RUN apk \
     --update-cache \
     --update add \
     "nodejs<8.0.0" \
+    "nodejs-npm" \
     ${APK_PACKAGES} \
     && rm -rf /var/cache/apk/*
 
