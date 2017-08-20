@@ -38,3 +38,12 @@ And run the project with the appropriate configuration:
 DO_TOKEN="123456789" DOMAIN="test.jgantunes.com" npm start
 # or yarn start
 ```
+
+
+## Contributing
+
+This project uses [standard js](https://github.com/feross/standard).
+
+## License
+
+MIT
