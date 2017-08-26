@@ -4,15 +4,10 @@ const logger = require('./src/logger')
 
 logger.info(`Starting DNS record checker with ${config.interval} ms interval`)
 
-function runCheck () {
-  dnsRecordChecker(config.domain, (err, result) => {
-    if (err) {
-      logger.error(err)
-    } else {
-      logger.trace(result)
-    }
-  })
-}
-
-runCheck()
-setInterval(runCheck, config.interval)
+dnsRecordChecker(config.domain, (err, result) => {
+  if (err) {
+    logger.error(err)
+  } else {
+    logger.trace(result)
+  }
+})
