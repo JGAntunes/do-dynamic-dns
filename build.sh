@@ -9,7 +9,7 @@ if [ "$PI" != "" ]; then DOCKERFILE="Dockerfile.rpi"; fi
 docker build --rm --tag do-dynamic-dns --file $DOCKERFILE .
 
 if [ "$RUN" != "" ]; then
-  docker run  --rm --name="do-dynamic-dns" -e DOMAIN -e UPDATE_INTERVAL -e DO_TOKEN do-dynamic-dns
+  sh ./run.sh
 fi;
 
 set +ex
