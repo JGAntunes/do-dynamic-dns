@@ -33,8 +33,8 @@ function dnsRecordChecker (domain, callback) {
     const myIp = ipResponse.toString('utf8')
     // No need for updates
     if (addressRecord.data === myIp) {
-      logger.trace(`Ip is still ${myIp}`)
-      return callback()
+      const msg = `Ip is still ${myIp}`
+      return callback(null, msg)
     }
     // Oops looks like our ip changed
     logger.trace(`Ip changed from ${myIp} to ${addressRecord.data}`)
