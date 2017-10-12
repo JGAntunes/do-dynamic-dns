@@ -9,9 +9,6 @@ Set your configuration using the specified env vars or using the `config.js` fil
 ```sh
 DOMAIN='domain.i.want.to.check'
 DO_TOKEN='Your Digital Ocean personal access token'
-
-# Optional
-UPDATE_INTERVAL='The interval in milis between requests, defaults to 6000'
 ```
 
 ### Using Docker
@@ -38,7 +35,6 @@ And run the project with the appropriate configuration:
 DO_TOKEN="123456789" DOMAIN="test.jgantunes.com" npm start
 # or yarn start
 ```
-
 
 ## Contributing
 
