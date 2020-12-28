@@ -7,7 +7,8 @@ Useful for when you have services running behind a NAT with a dynamic public IP.
 Set your configuration using the specified env vars or using the `config.js` file:
 
 ```sh
-DOMAIN='domain.i.want.to.check'
+DOMAIN='root.domain.i.want.to.check'
+RECORD='record.to.insert'
 DO_TOKEN='Your Digital Ocean personal access token'
 ```
 
@@ -15,8 +16,10 @@ DO_TOKEN='Your Digital Ocean personal access token'
 
 If you have `docker` and `bash` it's as easy as:
 ```sh
-DO_TOKEN="123456789" DOMAIN="test.jgantunes.com" RUN=1 ./build.sh
+DO_TOKEN="123456789" DOMAIN="jgantunes.com" RECORD="test" RUN=1 ./build.sh
 ```
+
+This will ensure an `A` record is created for `test` under your `jgantunes.com` domain resource.
 
 If you only have `docker` just run the appropriate docker setup with the provided Dockerfile.
 
@@ -32,7 +35,7 @@ npm i
 And run the project with the appropriate configuration:
 
 ```sh
-DO_TOKEN="123456789" DOMAIN="test.jgantunes.com" npm start
+DO_TOKEN="123456789" DOMAIN="jgantunes.com" RECORD="test" npm start
 # or yarn start
 ```
 

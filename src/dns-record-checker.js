@@ -1,5 +1,4 @@
-const Wreck = require('wreck')
-const parallel = require('run-parallel')
+const Wreck = require('@hapi/wreck')
 
 const request = require('./request')
 const logger = require('./logger')
@@ -18,27 +17,39 @@ const ipCheckerClient = Wreck.defaults({
   baseUrl: config.ipCheckerService
 })
 
-function updateDnsRecord (domain, recordId, data, callback) {
-  request(DOClient, 'PUT', `/domains/${domain}/records/${recordId}`, { payload: { data } }, callback)
+function updateDnsRecord (domain, recordId, data) {
+  return request(DOClient, 'PUT', `domains/${domain}/records/${recordId}`, { payload: { data } })
 }
 
-function dnsRecordChecker (domain, callback) {
-  parallel([
-    request.bind(request, ipCheckerClient, 'GET', '/myip'),
-    request.bind(request, DOClient, 'GET', `/domains/${domain}/records`)
-  ], (err, [ipResponse, DOResponse]) => {
-    if (err) return callback(err)
+function createDnsRecord (domain, name, data) {
+  return request(DOClient, 'POST', `domains/${domain}/records`, { payload: { name, data, type: 'A' } })
+}
+
+function dnsRecordChecker (domain) {
+  return Promise.all([
+    request(ipCheckerClient, 'GET', 'myip'),
+    request(DOClient, 'GET', `domains/${domain}/records`)
+  ])
+  .then(([ipResponse, DOResponse]) => {
     const domainRecords = DOResponse.domain_records
-    const addressRecord = domainRecords.find(record => record.type === 'A')
+    const addressRecord = domainRecords.find(record => {
+      return record.name === config.record && record.type === 'A'
+    })
     const myIp = ipResponse.toString('utf8')
     // No need for updates
-    if (addressRecord.data === myIp) {
-      const msg = `Ip is still ${myIp}`
-      return callback(null, msg)
+    if (addressRecord && addressRecord.data === myIp) {
+      return `Ip is still ${myIp}`
     }
+
+    // Record does not exist yet!
+    if (!addressRecord) {
+      logger.trace(`Record does not exist yet. Creating it with ip ${myIp}`)
+      return createDnsRecord(domain, config.record, myIp)
+    }
+
     // Oops looks like our ip changed
     logger.trace(`Ip changed from ${myIp} to ${addressRecord.data}`)
-    return updateDnsRecord(domain, addressRecord.id, myIp, callback)
+    return updateDnsRecord(domain, addressRecord.id, myIp)
   })
 }
 

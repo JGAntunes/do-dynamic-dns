@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "bunyan": "^1.8.12",
-    "run-parallel": "^1.1.6",
-    "wreck": "^12.2.3"
+    "@hapi/wreck": "^17.1.0"
   }
 }

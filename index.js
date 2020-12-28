@@ -4,10 +4,13 @@ const logger = require('./src/logger')
 
 logger.info(`Starting DNS record checker with for ${config.domain}`)
 
-dnsRecordChecker(config.domain, (err, result) => {
-  if (err) {
-    logger.error(err)
-  } else {
+async function main () {
+  try {
+    const result = await dnsRecordChecker(config.domain)
     logger.trace(result)
+  } catch (err) {
+    logger.error(err)
   }
-})
+}
+
+main()
