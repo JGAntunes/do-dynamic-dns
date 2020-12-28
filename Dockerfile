@@ -11,10 +11,10 @@ RUN apk \
     ${APK_PACKAGES} \
     && rm -rf /var/cache/apk/*
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 
 # Build
-RUN npm install && npm cache clean
+RUN npm install && npm cache clean --force
 
 COPY . .
 
