@@ -4,7 +4,7 @@ const logger = require('./src/logger')
 
 logger.info(`Starting DNS record checker with for ${config.domain}`)
 
-async function main () {
+async function main() {
   try {
     const result = await dnsRecordChecker(config.domain)
     logger.trace(result)

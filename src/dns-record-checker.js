@@ -8,7 +8,7 @@ const DOClient = Wreck.defaults({
   baseUrl: config.digitalOcean.baseUrl,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${config.digitalOcean.token}`
+    Authorization: `Bearer ${config.digitalOcean.token}`
   },
   json: true
 })
@@ -17,20 +17,23 @@ const ipCheckerClient = Wreck.defaults({
   baseUrl: config.ipCheckerService
 })
 
-function updateDnsRecord (domain, recordId, data) {
-  return request(DOClient, 'PUT', `domains/${domain}/records/${recordId}`, { payload: { data } })
+function updateDnsRecord(domain, recordId, data) {
+  return request(DOClient, 'PUT', `domains/${domain}/records/${recordId}`, {
+    payload: { data }
+  })
 }
 
-function createDnsRecord (domain, name, data) {
-  return request(DOClient, 'POST', `domains/${domain}/records`, { payload: { name, data, type: 'A' } })
+function createDnsRecord(domain, name, data) {
+  return request(DOClient, 'POST', `domains/${domain}/records`, {
+    payload: { name, data, type: 'A' }
+  })
 }
 
-function dnsRecordChecker (domain) {
+function dnsRecordChecker(domain) {
   return Promise.all([
     request(ipCheckerClient, 'GET', 'myip'),
     request(DOClient, 'GET', `domains/${domain}/records`)
-  ])
-  .then(([ipResponse, DOResponse]) => {
+  ]).then(([ipResponse, DOResponse]) => {
     const domainRecords = DOResponse.domain_records
     const addressRecord = domainRecords.find(record => {
       return record.name === config.record && record.type === 'A'

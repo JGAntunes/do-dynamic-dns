@@ -1,0 +1,8 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "plugins": ["prettier"],
+  "extends": ["standard", "plugin:prettier/recommended"]
+}

@@ -1,6 +1,6 @@
 const logger = require('./logger')
 
-async function request (client, method, url, options = {}) {
+async function request(client, method, url, options = {}) {
   try {
     const { payload } = await client[method.toLowerCase()](url, options)
     return payload
