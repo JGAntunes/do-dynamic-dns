@@ -4,9 +4,12 @@ set -ex
 
 DOCKERFILE="Dockerfile"
 
-if [ "$PI" != "" ]; then DOCKERFILE="Dockerfile.rpi"; fi
 
-docker build --rm --tag do-dynamic-dns --file $DOCKERFILE .
+docker build --rm --tag jgantunes/do-dynamic-dns --file $DOCKERFILE .
+
+if [ "$PUSH" != "" ]; then
+  docker push jgantunes/do-dynamic-dns
+fi;
 
 if [ "$RUN" != "" ]; then
   sh ./run.sh
