@@ -10,6 +10,7 @@ async function main() {
     logger.trace(result)
   } catch (err) {
     logger.error(err)
+    process.exit(1)
   }
 }
 
