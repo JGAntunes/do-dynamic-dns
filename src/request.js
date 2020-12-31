@@ -6,7 +6,7 @@ async function request(client, method, url, options = {}) {
     return payload
   } catch (err) {
     const { data } = err
-    if (!data.isResponseError) {
+    if (!data || !data.isResponseError) {
       logger.error(err)
       throw err
     }
