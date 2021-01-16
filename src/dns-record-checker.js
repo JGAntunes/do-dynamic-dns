@@ -29,31 +29,31 @@ function createDnsRecord(domain, name, data) {
   })
 }
 
-function dnsRecordChecker(domain) {
-  return Promise.all([
-    request(ipCheckerClient, 'GET', 'myip'),
-    request(DOClient, 'GET', `domains/${domain}/records`)
-  ]).then(([ipResponse, DOResponse]) => {
-    const domainRecords = DOResponse.domain_records
-    const addressRecord = domainRecords.find(record => {
-      return record.name === config.record && record.type === 'A'
-    })
-    const myIp = ipResponse.toString('utf8')
-    // No need for updates
-    if (addressRecord && addressRecord.data === myIp) {
-      return `Ip is still ${myIp}`
-    }
-
-    // Record does not exist yet!
-    if (!addressRecord) {
-      logger.trace(`Record does not exist yet. Creating it with ip ${myIp}`)
-      return createDnsRecord(domain, config.record, myIp)
-    }
-
-    // Oops looks like our ip changed
-    logger.trace(`Ip changed from ${myIp} to ${addressRecord.data}`)
-    return updateDnsRecord(domain, addressRecord.id, myIp)
+async function dnsRecordChecker(domain) {
+  let ipResponse = config.fixedIp
+  if (!ipResponse) {
+    ipResponse = await request(ipCheckerClient, 'GET', 'myip')
+  }
+  const DOResponse = await request(DOClient, 'GET', `domains/${domain}/records`)
+  const domainRecords = DOResponse.domain_records
+  const addressRecord = domainRecords.find(record => {
+    return record.name === config.record && record.type === 'A'
   })
+  const myIp = ipResponse.toString('utf8')
+  // No need for updates
+  if (addressRecord && addressRecord.data === myIp) {
+    return `Ip is still ${myIp}`
+  }
+
+  // Record does not exist yet!
+  if (!addressRecord) {
+    logger.trace(`Record does not exist yet. Creating it with ip ${myIp}`)
+    return createDnsRecord(domain, config.record, myIp)
+  }
+
+  // Oops looks like our ip changed
+  logger.trace(`Ip changed from ${myIp} to ${addressRecord.data}`)
+  return updateDnsRecord(domain, addressRecord.id, myIp)
 }
 
 module.exports = dnsRecordChecker
